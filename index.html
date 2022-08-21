@@ -72,7 +72,7 @@
 
             <button type="button" class="btn btn-success" @click="calculaTaxaMetabolicaBasal">Calcular</button>
 
-            <div class="alert alert-info mt-3">
+            <div v-if="gastoCaloricoDiario" class="alert alert-info mt-3">
                 <div class="mb-3">
                     <b>Taxa Metabólica Basal:</b> {{tmb}}cal
                 </div>
@@ -99,9 +99,9 @@
             el: "#app",
             data: {
                 sexo: "",
-                peso: "77",
-                altura: "172",
-                idade: "34",
+                peso: "",
+                altura: "",
+                idade: "",
                 objetivo: "",
                 atividade: "",
                 fatorAtividadeHomem: {
