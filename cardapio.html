@@ -6,50 +6,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Calcular de Calorias</title>
+    <style>
+        th, td { font-size: 13px; }
+    </style>
 </head>
-<body>
+<body style="background: #eee;">
+    
+    <div class="pt-2" style="background: #612599; top: -1; text-align: center; color: #eee;"><b>PROJETO AGORA</b> VAI!</div>
+    <div style="background: #612599; height: 11em;"></div>
+
 
     <div id="app" class="container">
-        <h3>Calcular de Calorias</h3>
-        <hr>
-        <form>
-            <label><b>Refeição:</b></label>
-            <div class="col-md-12 mb-3">
-                <select name="refeicao" class="form-control" v-model="refeicao">
-                    <option value="">SELECIONE...</option>
-                    <option value="CAFÉ DA MANHÃ">CAFÉ DA MANHÃ</option>
-                    <option value="LANCHE DA MANHÃ">LANCHE DA MANHÃ</option>
-                    <option value="ALMOÇO">ALMOÇO</option>
-                    <option value="LANCHE DA TARDE">LANCHE DA TARDE</option>
-                    <option value="JANTA">JANTA</option>
-                </select>
-            </div>
 
-            <label><b>Produto:</b></label>
-            <div class="col-md-12 mb-3">
-                <select name="produto" class="form-control" v-model="produto">
-                    <option value="">SELECIONE...</option>
-                    <option v-for="(produto, indice) in listaDeProdutos" :value="indice">{{ produto.nome }}</option>
-                </select>
-            </div>
+        <div style="background: white;  margin: -8em auto; border-radius: 5px; padding: 2em 1em 1em 1em;">
+            <h3>Calcular de Calorias</h3>
+            <hr>
+            <form>
+                <label><b>Refeição:</b></label>
+                <div class="col-md-12 mb-3">
+                    <select name="refeicao" class="form-control" v-model="refeicao">
+                        <option value="">SELECIONE...</option>
+                        <option value="CAFÉ DA MANHÃ">CAFÉ DA MANHÃ</option>
+                        <option value="LANCHE DA MANHÃ">LANCHE DA MANHÃ</option>
+                        <option value="ALMOÇO">ALMOÇO</option>
+                        <option value="LANCHE DA TARDE">LANCHE DA TARDE</option>
+                        <option value="JANTA">JANTA</option>
+                    </select>
+                </div>
 
-            <label><b>Quantidade:</b></label>
-            <div class="col-md-3 col-4 mb-3">
-                <input type="tel" name="quantidade" class="form-control" v-model="quantidade">
-            </div>
+                <label><b>Produto:</b></label>
+                <div class="col-md-12 mb-3">
+                    <select name="produto" class="form-control" v-model="produto">
+                        <option value="">SELECIONE...</option>
+                        <option v-for="(produto, indice) in listaDeProdutos" :value="indice">{{ produto.nome }}</option>
+                    </select>
+                </div>
 
-            <div class="col-12 mb-3">
-                <button type="button" class="btn btn-success col-12" @click="adicionarItem">Adicionar</button>
-            </div>
+                <label><b>Quantidade:</b></label>
+                <div class="col-md-3 col-4 mb-3">
+                    <input type="tel" name="quantidade" class="form-control" v-model="quantidade">
+                </div>
 
+                <div class="col-12 mb-3">
+                    <button type="button" class="btn btn-success col-12" @click="adicionarItem" style="background: #612599 !important; border: 1px solid #612599;">Adicionar</button>
+                </div>
+            </form>
+        </div>
+
+        <div style="background: white; margin-top: 9em;  border-radius: 5px; padding: 2em 1em; clear: both;">
             <table class="table" width="100%" v-if="cardapio.length > 0">
                 <thead>
                     <tr>
-                        <th>Produto</th>
-                        <th>Cal</th>
-                        <th>Pro</th>
-                        <th>Car</th>
-                        <th>Gor</th>
+                        <th width="80%">Produto</th>
+                        <th width="5%">Cal</th>
+                        <th width="5%">Pro</th>
+                        <th width="5%">Car</th>
+                        <th width="5%">Gor</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,8 +74,7 @@
                     </tr>
                 </tbody>
             </table>
-        </form>
-
+        </div>
     </div>
     
 
