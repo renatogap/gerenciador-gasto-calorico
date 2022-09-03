@@ -9,6 +9,18 @@
     <style>
         label {font-size: 13px;}
         th, td { font-size: 13px; }
+
+        @media only screen and (max-width: 600px) {
+            .total {
+                padding: 0.3em !important;
+                font-size: 14px;
+            }
+
+            h6 {
+                font-size: 13px;
+                font-weight: bold;
+            }
+        }
     </style>
 </head>
 <body style="background: #eee;">
@@ -19,8 +31,8 @@
 
     <div id="app" class="container">
 
-        <div style="background: white;  margin: -8em auto; border-radius: 5px; padding: 2em 1em 1em 1em;">
-            <h5 class="mb-3">Calcular Calorias</h5>
+        <div style="background: white;  margin: -8em auto; border-radius: 5px; padding: 1em 1em 1em 1em;">
+            <h5 class="h6 mb-3"><b>Calcular Calorias</b></h5>
 
             <form method="post" @submit.prevent="adicionarItem">
                 <label><b>Refeição:</b></label>
@@ -50,9 +62,26 @@
             </form>
         </div>
 
-        <div v-if="cardapio.length > 0" style="background: white; margin-top: 9em;  border-radius: 5px; padding: 2em 1em; clear: both;">
+        <div v-if="cardapio.length > 0" style="background: white; margin-top: 9em;  border-radius: 5px; padding: 2em 1em 0 1em; clear: both;">
+            <div class="row">
+                <div class="col-3">
+                    <div class="alert alert-success total"><h6>Calorias</h6> {{totalCalo}}</div> 
+                </div>
+                <div class="col-3">
+                    <div class="alert alert-info total"><h6>Proteína</h6>  {{totalProt}}g</div>
+                </div>
+                <div class="col-3">
+                    <div class="alert alert-warning total"><h6>Carbo</h6>  {{totalCarbo}}g</div>
+                </div>
+                <div class="col-3">
+                    <div class="alert alert-danger total"><h6>Gordura</h6>  {{totalGord}}g</div>
+                </div>
+            </div>
+        </div>
 
-            <table class="table" width="100%">
+        <div v-if="cardapio.length > 0" style="background: white; margin-top: 1em;  border-radius: 5px; padding: 2em 1em; clear: both;">
+
+            <table class="table table-hover" width="100%">
                 <thead>
                     <tr>
                         <th width="80%">Produto</th>
@@ -64,7 +93,7 @@
                 </thead>
                 <tbody>
                     <template v-for="(refeicao, i) in listaRefeicoes">
-                        <tr>
+                        <tr bgColor="#612599" style="color: white;">
                             <th colspan="5">{{ refeicao.nome }}</th>
                         </tr>
                         <tr v-if="item.refeicao == (i+1)" v-for="(item, indice) in cardapio">
@@ -79,9 +108,6 @@
             </table>
         </div>
 
-        <div style="background: white; margin-top: 9em;  border-radius: 5px; padding: 2em 1em; clear: both;">
-
-        </div>
     </div>
     
 
@@ -97,7 +123,11 @@
                 listaDeProdutos: "",
                 listaRefeicoes: "",
                 cardapio: [],
-                proporcao: ""
+                proporcao: "",
+                totalCalo: 0,
+                totalProt: 0,
+                totalCarbo: 0,
+                totalGord: 0
             },
             
             created() {
@@ -113,6 +143,11 @@
                         {id: 4, nome: "LANCHE DA TARDE"},
                         {id: 5, nome: "JARTAR"}
                     ]
+
+                    if(window.localStorage.cardapio){
+                        this.cardapio = JSON.parse(window.localStorage.cardapio);
+                    }
+
                 },
 
                 adicionarItem() {                    
@@ -121,14 +156,15 @@
                         refeicao: this.refeicao,
                         quantidade: this.quantidade,
                         nome: `${this.quantidade}${(this.listaDeProdutos[this.produto].medida == 'g' ? 'g': '')} ${this.listaDeProdutos[this.produto].nome}`,
-                        calo: ((this.quantidade * this.listaDeProdutos[this.produto].calo) / this.listaDeProdutos[this.produto].quantidade).toFixed(2),
-                        prot: ((this.quantidade * this.listaDeProdutos[this.produto].prot) / this.listaDeProdutos[this.produto].quantidade).toFixed(2),
-                        carbo: ((this.quantidade * this.listaDeProdutos[this.produto].carbo) / this.listaDeProdutos[this.produto].quantidade).toFixed(2),
-                        gord: ((this.quantidade * this.listaDeProdutos[this.produto].gord) / this.listaDeProdutos[this.produto].quantidade).toFixed(2)
+                        calo: parseFloat(((this.quantidade * this.listaDeProdutos[this.produto].calo) / this.listaDeProdutos[this.produto].quantidade).toFixed(2)),
+                        prot: parseFloat(((this.quantidade * this.listaDeProdutos[this.produto].prot) / this.listaDeProdutos[this.produto].quantidade).toFixed(2)),
+                        carbo: parseFloat(((this.quantidade * this.listaDeProdutos[this.produto].carbo) / this.listaDeProdutos[this.produto].quantidade).toFixed(2)),
+                        gord: parseFloat(((this.quantidade * this.listaDeProdutos[this.produto].gord) / this.listaDeProdutos[this.produto].quantidade).toFixed(2))
                     })
 
                     this.produto = "";
                     this.quantidade = "";
+
                 },
 
                 changeProduto() {
@@ -136,6 +172,28 @@
                     this.proporcao = `Medida em (${this.listaDeProdutos[this.produto].medida})`;                    
                 }
 
+            },
+            watch: {
+                cardapio() {
+                    window.localStorage.cardapio = JSON.stringify(this.cardapio);
+
+
+                    this.totalCalo = parseFloat(this.cardapio.reduce((acumulador, valorAtual) => {
+                        return (acumulador + valorAtual.calo)
+                    }, 0).toFixed(2));
+
+                    this.totalProt = parseFloat(this.cardapio.reduce((acumulador, valorAtual) => {
+                        return (acumulador + valorAtual.prot)
+                    }, 0).toFixed(2));
+
+                    this.totalCarbo = parseFloat(this.cardapio.reduce((acumulador, valorAtual) => {
+                        return (acumulador + valorAtual.carbo)
+                    }, 0).toFixed(2));
+
+                    this.totalGord = parseFloat(this.cardapio.reduce((acumulador, valorAtual) => {
+                        return (acumulador + valorAtual.gord)
+                    }, 0).toFixed(2));
+                }
             }
         })
     </script>
