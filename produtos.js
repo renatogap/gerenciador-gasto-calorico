@@ -130,5 +130,16 @@ const listaProdutos = [
         carbo: 1,
         gord: 7,
         value: ""
+    },
+    {
+        id: 13,
+        nome: "Feijão (1 concha)",
+        quantidade: 1,
+        medida: "UNID",
+        calo: 99,
+        prot: 5.8,
+        carbo: 18,
+        gord: 0.5,
+        value: ""
     }
 ]
