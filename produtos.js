@@ -119,5 +119,16 @@ const listaProdutos = [
         carbo: 1.53,
         gord: 6.86,
         value: ""
+    },
+    {
+        id: 12,
+        nome: "Queijo (1 fatia)",
+        quantidade: 1,
+        medida: "UNID",
+        calo: 99,
+        prot: 8,
+        carbo: 1,
+        gord: 7,
+        value: ""
     }
 ]
