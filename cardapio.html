@@ -37,7 +37,7 @@
             <form method="post" @submit.prevent="adicionarItem">
                 <label><b>Refeição:</b></label>
                 <div class="col-md-12 mb-3">
-                    <select name="refeicao" class="form-control form-control-sm" v-model="refeicao" required>
+                    <select name="refeicao" class="form-select form-select-sm" v-model="refeicao" required>
                         <option value="">SELECIONE...</option>
                         <option v-for="(refeicao, index) in listaRefeicoes" :value="(index+1)">{{refeicao.nome}}</option>
                     </select>
@@ -45,7 +45,7 @@
 
                 <label><b>Produto:</b></label>
                 <div class="col-md-12 mb-3">
-                    <select name="produto" class="form-control form-control-sm" v-model="produto" @change="changeProduto" required>
+                    <select name="produto" class="form-select form-select-sm" v-model="produto" @change="changeProduto" required>
                         <option value="">SELECIONE...</option>
                         <option v-for="(produto, indice) in listaDeProdutos" :value="indice">{{ produto.nome }}</option>
                     </select>
