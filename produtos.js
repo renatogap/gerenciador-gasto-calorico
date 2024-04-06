@@ -97,5 +97,27 @@ const listaProdutos = [
         carbo: 10,
         gord: 0.6,
         value: ""
+    },
+    {
+        id: 10,
+        nome: "Açúcar (colher de chá)",
+        quantidade: 1,
+        medida: "UNID",
+        calo: 16,
+        prot: 0,
+        carbo: 4.2,
+        gord: 0,
+        value: ""
+    },
+    {
+        id: 11,
+        nome: "Carne vermelha",
+        quantidade: 100,
+        medida: "G",
+        calo: 175,
+        prot: 27.69,
+        carbo: 1.53,
+        gord: 6.86,
+        value: ""
     }
 ]
