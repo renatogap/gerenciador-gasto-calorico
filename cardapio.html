@@ -164,8 +164,8 @@
                     mostrarAcoes(indice) {
                         
                         if(event.target.classList.contains('btn-editar')){
-                            
                             this.indiceSelecionado = `${indice}`;
+
                             this.mostrarOpcoesDeAcoes = false;
                             document.getElementById('acao_'+indice).innerHTML = '';
                             
@@ -179,29 +179,36 @@
                                 this.cardapio.splice(indice, 1);
                                 this.mostrarOpcoesDeAcoes = false;
                             }
-                        }else
+                        }
+                        else
                         if(event.target.classList.contains('btn-cancelar')){
                             this.mostrarOpcoesDeAcoes = false;
                             document.getElementById('acao_'+indice).innerHTML = '';
-                        }else
-                        if(!this.mostrarOpcoesDeAcoes){
-                            this.mostrarOpcoesDeAcoes = true;
-
-                            document.getElementById('acao_'+indice).innerHTML = `<div class="list-group">
-                                <a href="#" class="list-group-item list-group-item-action list-group-item-success text-center btn-editar">
-                                    Editar
-                                </a>
-                                <button type="button" class="list-group-item list-group-item-action list-group-item-danger text-center btn-excluir">
-                                    Excluir
-                                </button>
-                                <button type="button" class="list-group-item list-group-item-action list-group-item-secondary text-center btn-cancelar">
-                                    Cancelar
-                                </button>
-                            </div>`;
                         }
-                        // else {
-                        //     this.mostrarOpcoesDeAcoes = '';
-                        // }
+                        else {
+                            if(!this.mostrarOpcoesDeAcoes){
+                                this.mostrarOpcoesDeAcoes = true;
+
+                                document.getElementById('acao_'+indice).innerHTML = `<div class="list-group">
+                                    <a href="#" class="list-group-item list-group-item-action list-group-item-success text-center btn-editar">
+                                        <span style="font-size: 17px;" class="material-icons">edit</span>
+                                        <!--Editar-->
+                                    </a>
+                                    <button type="button" class="list-group-item list-group-item-action list-group-item-danger text-center btn-excluir">
+                                        <span style="font-size: 17px;" class="material-icons">delete</span>
+                                        <!--Excluir-->
+                                    </button>
+                                    <button type="button" class="list-group-item list-group-item-action list-group-item-secondary text-center btn-cancelar">
+                                        <span style="font-size: 17px;" class="material-icons">close</span>
+                                        <!--Cancelar-->
+                                    </button>
+                                </div>`;
+                            }
+                            else {
+                                //this.mostrarOpcoesDeAcoes = false;
+                                //document.getElementById('acao_'+indice).innerHTML = '';
+                            }
+                        }
                     },
 
                     adicionarItem() {
