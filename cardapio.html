@@ -1,201 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Projeto Agora Vai!</title>
-    <style>
-        label {font-size: 13px;}
-        th, td { font-size: 13px; }
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+        <title>Projeto Agora Vai!</title>
+        <style>
+            label {font-size: 13px;}
+            th, td { font-size: 13px; }
 
-        @media only screen and (max-width: 600px) {
-            .total {
-                padding: 0.3em !important;
-                font-size: 14px;
+            @media only screen and (max-width: 600px) {
+                .total {
+                    padding: 0.3em !important;
+                    font-size: 14px;
+                }
+
+                h6 {
+                    font-size: 13px;
+                    font-weight: bold;
+                }
             }
-
-            h6 {
-                font-size: 13px;
-                font-weight: bold;
-            }
-        }
-    </style>
-</head>
-<body style="background: #eee;">
-    
-    <div class="pt-2" style="background: #612599; top: -1; text-align: center; color: #eee;"><b>PROJETO AGORA</b> VAI!</div>
-    <div style="background: #612599; height: 11em;"></div>
+        </style>
+    </head>
+    <body style="background: #eee;">
+        
+        <div class="pt-2" style="background: #612599; top: -1; text-align: center; color: #eee;"><b>PROJETO AGORA</b> VAI!</div>
+        <div style="background: #612599; height: 11em;"></div>
 
 
-    <div id="app" class="container">
+        <div id="app" class="container">
 
-        <div style="background: white;  margin: -8em auto; border-radius: 5px; padding: 1em 1em 1em 1em;">
-            <h5 class="h6 mb-3"><b>Calcular Calorias</b></h5>
+            <div style="background: white;  margin: -8em auto; border-radius: 5px; padding: 1em 1em 1em 1em;">
+                <h5 class="h6 mb-3"><b>Calcular Calorias</b></h5>
 
-            <form method="post" @submit.prevent="adicionarItem">
-                <label><b>Refeição:</b></label>
-                <div class="col-md-12 mb-3">
-                    <select name="refeicao" class="form-select form-select-sm" v-model="refeicao" required>
-                        <option value="">SELECIONE...</option>
-                        <option v-for="(refeicao, index) in listaRefeicoes" :value="(index+1)">{{refeicao.nome}}</option>
-                    </select>
-                </div>
+                <form method="post" @submit.prevent="adicionarItem">
 
-                <label><b>Produto:</b></label>
-                <div class="col-md-12 mb-3">
-                    <select name="produto" class="form-select form-select-sm" v-model="produto" @change="changeProduto" required>
-                        <option value="">SELECIONE...</option>
-                        <option v-for="(produto, indice) in listaDeProdutos" :value="indice">{{ produto.nome }}</option>
-                    </select>
-                </div>
+                    
+                    <label><b>Refeição:</b></label>
+                    <div class="col-md-12 mb-3">
+                        <select name="refeicao" class="form-select form-select-sm" v-model="refeicao" required>
+                            <option value="">SELECIONE...</option>
+                            <option v-for="(refeicao, index) in listaRefeicoes" :value="(index+1)">{{refeicao.nome}}</option>
+                        </select>
+                    </div>
 
-                <label><b>Quantidade:</b></label>
-                <div class="col-md-3 col-6 mb-3">
-                    <input type="tel" name="quantidade" class="form-control form-control-sm" v-model="quantidade" :placeholder="proporcao" required>
-                </div>
+                    <label><b>Produto:</b></label>
+                    <div class="col-md-12 mb-3">
+                        <select name="produto" class="form-select form-select-sm" v-model="produto" @change="changeProduto" required>
+                            <option value="">SELECIONE...</option>
+                            <option v-for="(produto, indice) in listaDeProdutos" :value="indice">{{ produto.nome }}</option>
+                        </select>
+                    </div>
 
-                <div class="col-12 mb-3">
-                    <button type="submit" class="btn btn-success btn-sm" style="background: #612599 !important; border: 1px solid #612599;">Adicionar</button>
-                </div>
-            </form>
-        </div>
+                    <label><b>Quantidade:</b></label>
+                    <div class="col-md-3 col-6 mb-3">
+                        <input type="tel" name="quantidade" class="form-control form-control-sm" v-model="quantidade" :placeholder="proporcao" required>
+                    </div>
 
-        <div v-if="cardapio.length > 0" style="background: white; margin-top: 9em;  border-radius: 5px; padding: 2em 1em 0 1em; clear: both;">
-            <div class="row">
-                <div class="col-3">
-                    <div class="alert alert-success total"><h6>Calorias</h6> {{totalCalo}}</div> 
-                </div>
-                <div class="col-3">
-                    <div class="alert alert-info total"><h6>Proteína</h6>  {{totalProt}}g</div>
-                </div>
-                <div class="col-3">
-                    <div class="alert alert-warning total"><h6>Carbo</h6>  {{totalCarbo}}g</div>
-                </div>
-                <div class="col-3">
-                    <div class="alert alert-danger total"><h6>Gordura</h6>  {{totalGord}}g</div>
+                    <div class="col-12 mb-3">
+                        <button v-if="!indiceSelecionado" type="submit" class="btn btn-success btn-sm" style="background: #612599 !important; border: 1px solid #612599;">Adicionar</button>
+                        <button v-if="indiceSelecionado" type="submit" class="btn btn-success btn-sm" style="background: #612599 !important; border: 1px solid #612599;">Alterar</button>
+                        <button v-if="indiceSelecionado" type="button" class="btn btn-danger btn-sm" @click="cancelarEdicao">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div v-if="cardapio.length > 0" style="background: white; margin-top: 9em;  border-radius: 5px; padding: 2em 1em 0 1em; clear: both;">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="alert alert-success total"><h6>Calorias</h6> {{totalCalo}}</div> 
+                    </div>
+                    <div class="col-3">
+                        <div class="alert alert-info total"><h6>Proteína</h6>  {{totalProt}}g</div>
+                    </div>
+                    <div class="col-3">
+                        <div class="alert alert-warning total"><h6>Carbo</h6>  {{totalCarbo}}g</div>
+                    </div>
+                    <div class="col-3">
+                        <div class="alert alert-danger total"><h6>Gordura</h6>  {{totalGord}}g</div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div v-if="cardapio.length > 0" style="background: white; margin-top: 1em;  border-radius: 5px; padding: 2em 1em; clear: both;">
+            <div v-if="cardapio.length > 0" style="background: white; margin-top: 1em;  border-radius: 5px; padding: 2em 1em; clear: both;">
 
-            <table class="table table-hover" width="100%">
-                <thead>
-                    <tr>
-                        <th width="80%">Produto</th>
-                        <th width="5%">Cal</th>
-                        <th width="5%">Pro</th>
-                        <th width="5%">Car</th>
-                        <th width="5%">Gor</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <template v-for="(refeicao, i) in listaRefeicoes">
-                        <tr bgColor="#612599" style="color: white;">
-                            <th colspan="5">{{ refeicao.nome }}</th>
+                <h5 class="h6 mb-3"><b>Informações nutricionais</b></h5>
+
+                <table class="table table-hover" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="80%">Produto</th>
+                            <th width="5%">Cal</th>
+                            <th width="5%">Pro</th>
+                            <th width="5%">Car</th>
+                            <th width="5%">Gor</th>
+                            <th v-if="mostrarOpcoesDeAcoes" width="5%">Ações</th>
                         </tr>
-                        <tr v-if="item.refeicao == (i+1)" v-for="(item, indice) in cardapio">
-                            <td>{{ item.nome }}</td>
-                            <td>{{ item.calo }}</td>
-                            <td>{{ item.prot }}</td>
-                            <td>{{ item.carbo }}</td>
-                            <td>{{ item.gord }}</td>
-                        </tr>
-                    </template>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <template v-for="(refeicao, i) in listaRefeicoes">
+                            <tr bgColor="#612599" style="color: white;">
+                                <th colspan="6">{{ refeicao.nome }}</th>
+                            </tr>
+                            <tr v-if="item.refeicao == (i+1)" v-for="(item, indice) in cardapio"
+                                @click="mostrarAcoes(indice)">
+                                <td>{{ item.nome }}</td>
+                                <td>{{ item.calo }}</td>
+                                <td>{{ item.prot }}</td>
+                                <td>{{ item.carbo }}</td>
+                                <td>{{ item.gord }}</td>
+                                <td :id="'acao_'+indice" ></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
         </div>
+        
 
-    </div>
-    
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+        <script src="produtos.js"></script>
+        <script>
+            vue = new Vue({
+                el: "#app",
+                data: {
+                    indiceSelecionado: false,
+                    refeicao: "",
+                    produto: "",
+                    quantidade: "",
+                    listaDeProdutos: "",
+                    listaRefeicoes: "",
+                    cardapio: [],
+                    proporcao: "",
+                    totalCalo: 0,
+                    totalProt: 0,
+                    totalCarbo: 0,
+                    totalGord: 0,
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
-    <script src="produtos.js"></script>
-    <script>
-        vue = new Vue({
-            el: "#app",
-            data: {
-                refeicao: "",
-                produto: "",
-                quantidade: "",
-                listaDeProdutos: "",
-                listaRefeicoes: "",
-                cardapio: [],
-                proporcao: "",
-                totalCalo: 0,
-                totalProt: 0,
-                totalCarbo: 0,
-                totalGord: 0
-            },
-            
-            created() {
-                this.init();
-            },
-            methods: {
-                init() {
-                    this.listaDeProdutos = listaProdutos;
-                    this.listaRefeicoes = [
-                        {id: 1, nome: "CAFÉ DA MANHÃ"},
-                        {id: 2, nome: "LANCHE DA MANHÃ"},
-                        {id: 3, nome: "ALMOÇO"},
-                        {id: 4, nome: "LANCHE DA TARDE"},
-                        {id: 5, nome: "JARTAR"}
-                    ]
+                    mostrarOpcoesDeAcoes: ''
+                },
+                
+                created() {
+                    this.init();
+                },
+                methods: {
+                    init() {
+                        this.listaDeProdutos = listaProdutos;
+                        this.listaRefeicoes = [
+                            {id: 1, nome: "CAFÉ DA MANHÃ"},
+                            {id: 2, nome: "LANCHE DA MANHÃ"},
+                            {id: 3, nome: "ALMOÇO"},
+                            {id: 4, nome: "LANCHE DA TARDE"},
+                            {id: 5, nome: "JARTAR"}
+                        ]
 
-                    if(window.localStorage.cardapio){
-                        this.cardapio = JSON.parse(window.localStorage.cardapio);
+                        if(window.localStorage.cardapio){
+                            this.cardapio = JSON.parse(window.localStorage.cardapio);
+                        }
+                    },
+
+                    mostrarAcoes(indice) {
+                        
+                        if(event.target.classList.contains('btn-editar')){
+                            
+                            this.indiceSelecionado = `${indice}`;
+                            this.mostrarOpcoesDeAcoes = false;
+                            document.getElementById('acao_'+indice).innerHTML = '';
+                            
+
+                            this.refeicao   = this.cardapio[indice].refeicao;
+                            this.produto    = this.cardapio[indice].produto_id;
+                            this.quantidade = this.cardapio[indice].quantidade;
+                        }else
+                        if(event.target.classList.contains('btn-excluir')){
+                            if(confirm('Deseja remover este produto?')){
+                                this.cardapio.splice(indice, 1);
+                                this.mostrarOpcoesDeAcoes = false;
+                            }
+                        }else
+                        if(event.target.classList.contains('btn-cancelar')){
+                            this.mostrarOpcoesDeAcoes = false;
+                            document.getElementById('acao_'+indice).innerHTML = '';
+                        }else
+                        if(!this.mostrarOpcoesDeAcoes){
+                            this.mostrarOpcoesDeAcoes = true;
+
+                            document.getElementById('acao_'+indice).innerHTML = `<div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action text-center btn-editar">
+                                    Editar
+                                </a>
+                                <button type="button" class="list-group-item list-group-item-action text-center btn-excluir">
+                                    Excluir
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action text-center btn-cancelar">
+                                    Cancelar
+                                </button>
+                            </div>`;
+                        }
+                        // else {
+                        //     this.mostrarOpcoesDeAcoes = '';
+                        // }
+                    },
+
+                    adicionarItem() {
+
+                        if(this.indiceSelecionado) {
+                            this.cardapio.splice(this.indiceSelecionado, 1);
+                            this.indiceSelecionado = false;
+                        }
+                        
+                        this.cardapio.push({
+                            id: `${this.refeicao}${this.produto}`,
+                            produto_id: this.produto,
+                            refeicao: this.refeicao,
+                            nome: `${this.quantidade}${(this.listaDeProdutos[this.produto].medida == 'g' ? 'g': '')} ${this.listaDeProdutos[this.produto].nome}`,
+                            quantidade: this.quantidade,
+                            calo: parseFloat(((this.quantidade * this.listaDeProdutos[this.produto].calo) / this.listaDeProdutos[this.produto].quantidade).toFixed(2)),
+                            prot: parseFloat(((this.quantidade * this.listaDeProdutos[this.produto].prot) / this.listaDeProdutos[this.produto].quantidade).toFixed(2)),
+                            carbo: parseFloat(((this.quantidade * this.listaDeProdutos[this.produto].carbo) / this.listaDeProdutos[this.produto].quantidade).toFixed(2)),
+                            gord: parseFloat(((this.quantidade * this.listaDeProdutos[this.produto].gord) / this.listaDeProdutos[this.produto].quantidade).toFixed(2))
+                        })
+
+                        this.produto = "";
+                        this.quantidade = "";
+                    },
+
+                    changeProduto() {                   
+                        this.proporcao = `Medida em (${this.listaDeProdutos[this.produto].medida})`;                    
+                    },
+
+                    cancelarEdicao() {
+                        this.indiceSelecionado = '';
+                        this.produto = "";
+                        this.quantidade = "";
+                        this.refeicao = "";
                     }
 
                 },
+                watch: {
+                    cardapio() {
+                        window.localStorage.cardapio = JSON.stringify(this.cardapio);
 
-                adicionarItem() {                    
-                    
-                    this.cardapio.push({
-                        refeicao: this.refeicao,
-                        quantidade: this.quantidade,
-                        nome: `${this.quantidade}${(this.listaDeProdutos[this.produto].medida == 'g' ? 'g': '')} ${this.listaDeProdutos[this.produto].nome}`,
-                        calo: parseFloat(((this.quantidade * this.listaDeProdutos[this.produto].calo) / this.listaDeProdutos[this.produto].quantidade).toFixed(2)),
-                        prot: parseFloat(((this.quantidade * this.listaDeProdutos[this.produto].prot) / this.listaDeProdutos[this.produto].quantidade).toFixed(2)),
-                        carbo: parseFloat(((this.quantidade * this.listaDeProdutos[this.produto].carbo) / this.listaDeProdutos[this.produto].quantidade).toFixed(2)),
-                        gord: parseFloat(((this.quantidade * this.listaDeProdutos[this.produto].gord) / this.listaDeProdutos[this.produto].quantidade).toFixed(2))
-                    })
 
-                    this.produto = "";
-                    this.quantidade = "";
+                        this.totalCalo = parseFloat(this.cardapio.reduce((acumulador, valorAtual) => {
+                            return (acumulador + valorAtual.calo)
+                        }, 0).toFixed(2));
 
-                },
+                        this.totalProt = parseFloat(this.cardapio.reduce((acumulador, valorAtual) => {
+                            return (acumulador + valorAtual.prot)
+                        }, 0).toFixed(2));
 
-                changeProduto() {
-                    //this.proporcao = `Proporção: ${this.listaDeProdutos[this.produto].quantidade} ${this.listaDeProdutos[this.produto].medida}`;                    
-                    this.proporcao = `Medida em (${this.listaDeProdutos[this.produto].medida})`;                    
+                        this.totalCarbo = parseFloat(this.cardapio.reduce((acumulador, valorAtual) => {
+                            return (acumulador + valorAtual.carbo)
+                        }, 0).toFixed(2));
+
+                        this.totalGord = parseFloat(this.cardapio.reduce((acumulador, valorAtual) => {
+                            return (acumulador + valorAtual.gord)
+                        }, 0).toFixed(2));
+                    }
                 }
-
-            },
-            watch: {
-                cardapio() {
-                    window.localStorage.cardapio = JSON.stringify(this.cardapio);
-
-
-                    this.totalCalo = parseFloat(this.cardapio.reduce((acumulador, valorAtual) => {
-                        return (acumulador + valorAtual.calo)
-                    }, 0).toFixed(2));
-
-                    this.totalProt = parseFloat(this.cardapio.reduce((acumulador, valorAtual) => {
-                        return (acumulador + valorAtual.prot)
-                    }, 0).toFixed(2));
-
-                    this.totalCarbo = parseFloat(this.cardapio.reduce((acumulador, valorAtual) => {
-                        return (acumulador + valorAtual.carbo)
-                    }, 0).toFixed(2));
-
-                    this.totalGord = parseFloat(this.cardapio.reduce((acumulador, valorAtual) => {
-                        return (acumulador + valorAtual.gord)
-                    }, 0).toFixed(2));
-                }
-            }
-        })
-    </script>
-</body>
+            })
+        </script>
+    </body>
 </html>
